@@ -19,8 +19,8 @@ const practice = () => {
       }}
     >
       <View style={{ backgroundColor: "green", width: 120, height: 120 }} />
-      , <View style={{ backgroundColor: "crimson", width: 120}} />
-      , <View style={{ backgroundColor: "gold", width: 120, height: 120 }} />
+      <View style={{ backgroundColor: "crimson", width: 120}} />
+      <View style={{ backgroundColor: "gold", width: 120, height: 120 }} />
     </View>
   );
 };

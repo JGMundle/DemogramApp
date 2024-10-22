@@ -1,0 +1,14 @@
+
+        
+
+        
+       
+          <Text style={{ color: "gray" }}>Just now</Text>
+          {/* {multiplePost && (
+            <View>
+              {multiplePost.map((post) => (
+                <View>{post}</View>
+              ))}
+            </View>
+          )} */}
+        </View>

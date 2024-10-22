@@ -1,23 +1,26 @@
-import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React, { ReactNode } from 'react'
-
-
+import {
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+} from "react-native";
+import React, { ReactNode } from "react";
+import Constants from "expo-constants";
+console.log(Constants);
 interface Props {
-    children: ReactNode
+  children: ReactNode;
 }
-const BaseScreen = ({children}: Props) => {
-  return (
-    <SafeAreaView style={styles.mainContainer}>
-        {children}
-    </SafeAreaView>
-  );
-}
+const BaseScreen = ({ children }: Props) => {
+  return <SafeAreaView style={styles.mainContainer}>{children}</SafeAreaView>;
+};
 
-export default BaseScreen
+export default BaseScreen;
 
 const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-    marginTop: Platform.OS === "android" ? 45 : 0
+  mainContainer: {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
   },
 });

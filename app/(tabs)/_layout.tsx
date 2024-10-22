@@ -4,6 +4,7 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -18,7 +19,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          tabBarLabel: "",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}
@@ -30,22 +31,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Explore",
+          tabBarLabel: "",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
+              name={focused ? "magnify" : "magnify-close"}
               color={color}
             />
           ),
@@ -53,14 +42,35 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="practice"
+        name="addcontent"
         options={{
-          title: "Practice",
+          tabBarLabel: "",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
+              name={focused ? "plus-box-outline" : "plus-box-outline"}
               color={color}
             />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="reels"
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "play-box" : "play-box-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome name={focused ? "user-circle": "user-circle-o"} size={26}/>
           ),
         }}
       />

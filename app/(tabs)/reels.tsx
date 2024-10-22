@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Icon from "react-native-vector-icons/FontAwesome"
 
-const Home = () => {
+const reels = () => {
   return (
     <View>
 
@@ -10,6 +10,6 @@ const Home = () => {
   );
 }
 
-export default Home
+export default reels
 
 const styles = StyleSheet.create({})
