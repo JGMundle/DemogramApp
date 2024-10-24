@@ -8,6 +8,7 @@ import {
   Text,
   View,
   Dimensions,
+  Alert
 } from "react-native";
 import React, { useState } from "react";
 import Constants from "expo-constants";
@@ -18,6 +19,9 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typo from "@/components/basecomponents/Typo";
 import { router } from "expo-router";
+
+import ImageArrayComponent from "@/components/ImageArrayComponent";
+import * as ImagePicker from "expo-image-picker";
 
 //Screen Dimension Logic
 const { width } = Dimensions.get("window");
@@ -51,6 +55,69 @@ const photoBucket = [
 
 const profile = () => {
   const [gridSelected, setGridSelected] = useState<boolean>(true);
+  const [capturedImage, setCapturedImage] = useState<ImagePicker.ImagePickerAsset[]>([]);
+  const [images, setImages] = useState<ImagePicker.ImagePickerAsset[]>([]);
+  const [rnImages, setRnImages] = useState<string | undefined>("");
+
+  // const rnImagePicker = async () => {
+  //   launchImageLibrary(
+  //     { mediaType: "photo", selectionLimit: 10, quality: 1 },
+  //     (response) => {
+  //       if (response.didCancel) {
+  //         alert("Cancelled Operation"); //If the permission has been cancelled, you won't be able to use the camera for the app
+  //       } else if (response.errorCode) {
+  //         alert(`Error occured while picking image: ${response.errorCode}`); //In case there's an error that occoured
+  //       } else if (response && response.assets) {
+  //         setRnImages(response.assets[0].uri); //Image successfully loaded
+  //       }
+  //     }
+  //   );
+  // };
+
+  const openImagePicker = async () => {
+    // Request permission from our user
+    const permissions = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permissions.granted) {
+      alert("Permissions to access your media library is required"); //This shows an alert on a screen about accessing your media library
+      return;
+    }
+
+    //Open Image Picker
+    const imagePickerResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true, //Give permission to edit photos/videos
+      quality: 1, //The quality of the picture
+      aspect: [4, 3], //Size of the picture frame
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    if (imagePickerResult.assets) {
+      setImages(imagePickerResult.assets);
+    }
+  };
+
+  const openCamera = async () => {
+    const { status } = await ImagePicker.getCameraPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Camera Permissions",
+        "Permissions for camera usage is denied!"
+      ); //Gives you an alert (with some extra details) about camera permissions and displays a message if denied
+      return;
+    }
+
+    const camera = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, //PNG, JPEG, or any other type of file can be chosen
+      allowsEditing: true, //Give permission to edit photos/videos
+      quality: 1, //The quality of the picture
+      aspect: [4, 3], //Size of the picture frame
+    });
+
+    if (camera.assets) {
+      setCapturedImage(camera.assets); //We're adding the image to the database where the image can be used from anytime
+    }
+  };
+
+
   return (
     <View style={styles.mainContainer}>
       {/* Username, Settings & Threads */}
