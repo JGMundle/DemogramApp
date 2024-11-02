@@ -4,7 +4,7 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -34,7 +34,7 @@ export default function TabLayout() {
           tabBarLabel: "",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "magnify" : "magnify-close"}
+              name={focused ? "magnify" : "magnify"}
               color={color}
             />
           ),
@@ -54,13 +54,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="reels"
+        name="activity"
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "play-box" : "play-box-outline"}
+            <AntDesign
+              name={focused ? "heart" : "hearto"}
               color={color}
+              size={27}
+              style={{marginTop: 5}}
             />
           ),
         }}

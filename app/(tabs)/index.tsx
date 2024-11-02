@@ -42,25 +42,16 @@ export default function HomeScreen() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          borderWidth: 1,
-          borderColor: "red",
         }}
       >
         <View>
-          <Text>Instagram</Text>
+          <Text style={{fontSize: 30}}>Instagram</Text>
         </View>
-        <View style={{ flexDirection: "row", gap: 5 }}>
-          <FontAwesome
-            name="plus-square-o"
-            size={28}
-            style={{ marginRight: 18 }}
-          />
-          <FontAwesome name="heart-o" size={28} style={{ marginRight: 12 }} />
-        </View>
+
       </View>
 
       {/* Your story & Followings */}
-      <View style={{ flexDirection: "row", borderWidth: 1 }}>
+      <View style={{ flexDirection: "row"}}>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -76,8 +67,6 @@ export default function HomeScreen() {
         />
       </View>
 
-      {/* Posts */}
-      
     </BaseScreen>
   );
 }

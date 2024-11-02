@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react'
 
 
 interface Props {
-    children: ReactElement
+    children: ReactElement | string
     style?: TextProps["style"]
     lines?: number
 }

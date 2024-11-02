@@ -38,7 +38,7 @@ const pictureBucket = [
   { img: require("../../assets/images/Icecream1.jpeg") },
 ];
 
-const photoBucket = [
+export const photoBucket = [
   { img: require("../../assets/images/Pexel/pexels-img1.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img2.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img3.jpg") },
@@ -48,9 +48,6 @@ const photoBucket = [
   { img: require("../../assets/images/Pexel/pexels-img7.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img8.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img9.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img1.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img1.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img1.jpg") },
 ];
 
 const profile = () => {
@@ -275,14 +272,15 @@ const profile = () => {
               <Image
                 source={item.img}
                 style={styles.image}
-            
+                
               />
             </View>
           )}
         />
       ) : (
         <FlatList
-          showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled
           data={photoBucket}
             numColumns={numOfPostColumns}
             contentContainerStyle={styles.imageGrid}
