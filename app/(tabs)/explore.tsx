@@ -8,7 +8,7 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-
+import Animated, { FadeInUp } from "react-native-reanimated";
 import BaseScreen from "@/components/screens/BaseScreen";
 import { useState } from "react";
 import { spacingX, spacingY } from "@/config/spacing";
@@ -79,7 +79,8 @@ export default function TabTwoScreen() {
       {/* Mini Tabs */}
 
       <View style={{ flexDirection: "row" }}>
-        <FlatList
+        <Animated.FlatList
+          entering={FadeInUp.delay(100).springify().damping(12).stiffness(100)}
           horizontal
           scrollEnabled
           showsHorizontalScrollIndicator={false}
