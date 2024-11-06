@@ -21,12 +21,12 @@ const UserPostDetailsScreen = () => {
     const [viewComments, setViewComments] = useState<boolean>(false);
     
     const itemData = useLocalSearchParams()
-    console.log(itemData)
+    console.log(itemData.url)
 
     //NodeRequire is the return type of require("url.com") is a number
 
   return (
-    <View style={{ borderWidth: 1, borderColor: "blue", padding: 7 }}>
+    <View style={{ borderColor: "blue", padding: 7 }}>
         <View style={{ alignItems: "center", gap: 220, flexDirection: "row" }}>
           <View style={{ alignItems: "center", flexDirection: "row" }}>
             <View>
@@ -41,11 +41,15 @@ const UserPostDetailsScreen = () => {
               <MaterialCommunityIcons name="chevron-left" size={32} style={{backgroundColor: Colors.darkGrayBG}} />
           </Pressable>
         <Image
-          source={Number(itemData.img)}
+          source={Number(itemData.url)}
           style={{ width: 400, height: 400 }}
         />
 
-        {/* Like, Comment, Share & Bookmark */}
+      
+      <View>
+        <Text>{String(itemData.name)}</Text>
+        <Text>£{Number(itemData.price)}</Text>
+      </View>
         <View style={{ flexDirection: "row", gap: 240, marginTop: 7 }}>
           <View style={{ flexDirection: "row", gap: 20, alignItems: "center" }}>
             <AntDesign

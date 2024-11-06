@@ -7,14 +7,15 @@ import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="UserPostDetialsScreen" options={{ headerShown: false }} />
-
+        <Stack.Screen
+          name="UserPostDetialsScreen"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="shop" options={{ headerShown: false }} />
       </Stack>
-    </ThemeProvider>
   );
 }

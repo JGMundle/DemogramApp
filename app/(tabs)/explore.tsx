@@ -49,7 +49,7 @@ export const photoBucket2 = [
 export default function TabTwoScreen() {
   const [searchInputData, setSearchInputData] = useState<string>();
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
-   const router = useRouter();
+  const router = useRouter();
   console.log(searchInputData);
   return (
     <BaseScreen>
@@ -79,8 +79,8 @@ export default function TabTwoScreen() {
       {/* Mini Tabs */}
 
       <View style={{ flexDirection: "row" }}>
-        <Animated.FlatList
-          entering={FadeInUp.delay(100).springify().damping(12).stiffness(100)}
+        <FlatList
+          // entering={FadeInUp.delay(100).springify().damping(12).stiffness(100)}
           horizontal
           scrollEnabled
           showsHorizontalScrollIndicator={false}
@@ -90,7 +90,12 @@ export default function TabTwoScreen() {
             marginLeft: 5,
             marginTop: 5,
           }}
-          renderItem={({ item }) => <Text style={styles.Text}>{item}</Text>}
+          renderItem={({ item }) => 
+              <Pressable onPress={() => router.push(`${item === "Shop" ? "/(screens)/shop": "/(tabs)/explore"}`)}>
+                <Text style={styles.Text}>{item}</Text>
+              </Pressable>
+           
+          }
         />
       </View>
 
@@ -98,11 +103,16 @@ export default function TabTwoScreen() {
         showsVerticalScrollIndicator={false}
         numColumns={2}
         data={photoBucket2}
-        contentContainerStyle={{ width: "100%", marginTop: 10}}
+        contentContainerStyle={{ width: "100%", marginTop: 10 }}
         renderItem={({ item }) => (
           <Pressable
             //Yellow brackets {} configuration object
-            onPress={() => router.navigate({pathname: "/(screens)/UserPostDetailsScreen", params: {...item}})}
+            onPress={() =>
+              router.navigate({
+                pathname: "/(screens)/UserPostDetailsScreen",
+                params: { ...item },
+              })
+            }
           >
             <View style={{ width: imagePostSize, height: imagePostSize }}>
               <Image source={item.img} style={styles.image} />
