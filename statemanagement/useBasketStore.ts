@@ -14,6 +14,7 @@ export interface BasketItem {
 
 type BasketStore = {
     items: BasketItem[]
+    favoritedItems: BasketItem[]
     addItem: (item: BasketItem) => void
     removeItem: (id: number) => void 
     clearBasket: () => void
@@ -24,6 +25,7 @@ type BasketStore = {
 
 export const useBasketStore = create<BasketStore>((set) => ({
     items: [],
+    favoritedItems: [],
     addItem: (item) => 
         set((state) => {
             const existingItem = state.items.find((i) => i.id === item.id)

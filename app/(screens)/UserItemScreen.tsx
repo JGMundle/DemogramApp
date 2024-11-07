@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   ImageURISource,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import {
@@ -25,15 +26,13 @@ import { Colors } from "@/constants/Colors";
 import { BasketItem, useBasketStore } from "@/statemanagement/useBasketStore";
 
 export default function UserItemScreen() {
-  const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [viewComments, setViewComments] = useState<boolean>(false);
 
   const itemData = useLocalSearchParams();
   const { addItem, items } = useBasketStore();
 
 
-   const handleAddItem = () => {
+  const handleAddItem = () => {
      addItem({
        id: Number(itemData.id),
        url: Number(itemData.url),
@@ -49,7 +48,7 @@ export default function UserItemScreen() {
 
   //NodeRequire is the return type of require("url.com") is a number
   return (
-    <ScrollView style={{ borderColor: "blue", padding: 7 }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ borderColor: "blue", padding: 7 }}>
       {/* Chevron Back */}
       <Pressable onPress={() => router.back()}>
         <MaterialCommunityIcons
@@ -93,22 +92,7 @@ export default function UserItemScreen() {
           <Text style={{ fontSize: 30 }}>£{Number(itemData.price)}</Text>
         </View>
 
-        <Pressable
-          style={{ flexDirection: "row", alignItems: "center" }}
-          onPress={() => handleAddItem()}
-        >
-          
-          <MaterialCommunityIcons name="shopping" size={24} color="black" />
-          <Typo>Add to Basket</Typo>
-        </Pressable>
 
-        <Pressable
-          style={{position: "absolute", bottom: 100, flexDirection: "row", alignItems: "center"}}
-          onPress={() => router.navigate("/(screens)/ShoppingBasket")}
-        >
-          <Typo>Go To Checkout</Typo>
-          <MaterialCommunityIcons name="basket-check" color="black" size={24} />
-        </Pressable>
 
         {/* Add to basket, w */}
         <View style={{ flexDirection: "row", gap: 20, alignItems: "center" }}>
@@ -124,10 +108,18 @@ export default function UserItemScreen() {
         </View>
       </View>
 
+      <TouchableOpacity
+        style={styles.addToBasket}
+        onPress={() => handleAddItem()}
+      >
+        <MaterialCommunityIcons name="shopping" size={24} color="black" style={{marginRight: 3}}/>
+        <Typo>Add to Basket</Typo>
+      </TouchableOpacity>
+
       {/* Description */}
 
       <Text style={{ marginTop: 6, fontSize: 19 }}>
-        This is a description about the product
+        This is a description about the product.
       </Text>
 
       {/* Reviews */}
@@ -163,4 +155,16 @@ export default function UserItemScreen() {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  addToBasket: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#2e8bc0",
+    alignContent: "center",
+    justifyContent: "center",
+    borderRadius: 7,
+    paddingVertical: 5,
+
+    marginVertical: 10,
+  },
+});

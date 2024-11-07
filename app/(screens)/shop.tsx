@@ -7,10 +7,11 @@ import {
   Image,
   Dimensions,
   FlatList,
+  Button,
 } from "react-native";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import FilteringModal from "../modal/FilteringModal";
 import { spacingX, spacingY } from "@/config/spacing";
 import { Colors } from "@/constants/Colors";
@@ -18,21 +19,48 @@ import BaseScreen from "@/components/screens/BaseScreen";
 import { products } from "@/utils/data";
 import Typo from "@/components/basecomponents/Typo";
 import { useBasketStore } from "@/statemanagement/useBasketStore";
+import Animated from "react-native-reanimated";
 
 const { width } = Dimensions.get("window");
 const imagePostSize = Math.round(width / 2);
+const logoSize = 20;
 
 const shop = () => {
   const [searchInputData, setSearchInputData] = useState<string>();
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
-  const { addItem, items } = useBasketStore()
-
-
-   console.log(items)
-  const router = useRouter()
+  const router = useRouter();
+  const {favoritedItems} = useBasketStore()
   return (
     <BaseScreen>
+      <Animated.View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginHorizontal: spacingX._15,
+          paddingVertical: spacingY._15
+        }}
+      >
+        <View>
+          <Pressable>
+            <MaterialCommunityIcons name="view-grid" size={logoSize} color="black" />
+          </Pressable>
+        </View>
+
+        <View style={{ flexDirection: "row" }}>
+          <Pressable onPress={() => router.push("/(screens)/ShoppingBasket")}>
+            <MaterialCommunityIcons name="cart" size={logoSize} color="black" />
+          </Pressable>
+          <Pressable onPress={() => router.push("/(screens)/shop")}>
+            <MaterialCommunityIcons
+              name={favoritedItems.length > 0 ? "heart" : "heart-outline"}
+              size={logoSize}
+              color={favoritedItems.length > 0 ? "red" : "black"}
+            />
+          </Pressable>
+        </View>
+      </Animated.View>
       {/* Search Bar */}
       <View style={styles.searchBar}>
         <MaterialCommunityIcons name="magnify" size={25} />
@@ -56,6 +84,21 @@ const shop = () => {
 
         <FilteringModal isVisible={isFiltering} />
       </View>
+
+      {/* Return Home */}
+      <Pressable
+        onPress={() => router.navigate("/")}
+        style={{
+          alignContent: "center",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 4,
+          marginLeft: 4,
+        }}
+      >
+        <MaterialCommunityIcons name="chevron-left" size={30} />
+        <Text>Return Home</Text>
+      </Pressable>
 
       {/* Items Flat List */}
 
@@ -99,6 +142,14 @@ const shop = () => {
           </View>
         )}
       />
+
+      <Pressable
+        style={styles.checkoutBtn}
+        onPress={() => router.navigate("/(screens)/ShoppingBasket")}
+      >
+        <Typo>Go To Checkout</Typo>
+        <MaterialCommunityIcons name="basket-check" color="black" size={24} />
+      </Pressable>
     </BaseScreen>
   );
 };
@@ -128,5 +179,19 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 20,
+  },
+
+  checkoutBtn: {
+    position: "static",
+    bottom: 100,
+    left: 100,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#145da0",
+    padding: 4,
+    borderRadius: 7,
+    justifyContent: "center",
+
+    width: "50%",
   },
 });
