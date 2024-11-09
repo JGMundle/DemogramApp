@@ -58,8 +58,6 @@ import { useRouter } from "expo-router";
     { img: require("../../assets/images/Pexel/PersonInTheSunset.jpg") },
     { img: require("../../assets/images/Pexel/KoreanBackAlley.jpg") },
   ];
-
-   interface Action {}
  
   interface User {
     username: string;

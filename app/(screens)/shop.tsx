@@ -7,7 +7,6 @@ import {
   Image,
   Dimensions,
   FlatList,
-  Button,
 } from "react-native";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -23,7 +22,7 @@ import Animated from "react-native-reanimated";
 
 const { width } = Dimensions.get("window");
 const imagePostSize = Math.round(width / 2);
-const logoSize = 20;
+const logoSize = 28;
 
 const shop = () => {
   const [searchInputData, setSearchInputData] = useState<string>();
@@ -33,26 +32,27 @@ const shop = () => {
   const {favoritedItems} = useBasketStore()
   return (
     <BaseScreen>
+      {/* Navigation */}
       <Animated.View
         style={{
           flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
           marginHorizontal: spacingX._15,
           paddingVertical: spacingY._15
         }}
       >
-        <View>
+        {/* <View>
           <Pressable>
             <MaterialCommunityIcons name="view-grid" size={logoSize} color="black" />
           </Pressable>
-        </View>
+        </View> */}
 
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", gap:10 }}>
           <Pressable onPress={() => router.push("/(screens)/ShoppingBasket")}>
             <MaterialCommunityIcons name="cart" size={logoSize} color="black" />
           </Pressable>
-          <Pressable onPress={() => router.push("/(screens)/shop")}>
+
+          <Pressable onPress={() => console.log("Route for Favourites goes here")}>
             <MaterialCommunityIcons
               name={favoritedItems.length > 0 ? "heart" : "heart-outline"}
               size={logoSize}
@@ -61,6 +61,7 @@ const shop = () => {
           </Pressable>
         </View>
       </Animated.View>
+
       {/* Search Bar */}
       <View style={styles.searchBar}>
         <MaterialCommunityIcons name="magnify" size={25} />
@@ -129,7 +130,7 @@ const shop = () => {
             <Text style={{ color: "gray" }}>{`£${item.price}`}</Text>
 
             <Pressable
-              onPress={() => console.log("Added")}
+              onPress={() => console.log("Item added")}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -142,14 +143,6 @@ const shop = () => {
           </View>
         )}
       />
-
-      <Pressable
-        style={styles.checkoutBtn}
-        onPress={() => router.navigate("/(screens)/ShoppingBasket")}
-      >
-        <Typo>Go To Checkout</Typo>
-        <MaterialCommunityIcons name="basket-check" color="black" size={24} />
-      </Pressable>
     </BaseScreen>
   );
 };
@@ -179,19 +172,5 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 20,
-  },
-
-  checkoutBtn: {
-    position: "static",
-    bottom: 100,
-    left: 100,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#145da0",
-    padding: 4,
-    borderRadius: 7,
-    justifyContent: "center",
-
-    width: "50%",
   },
 });
