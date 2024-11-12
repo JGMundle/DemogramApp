@@ -111,7 +111,6 @@ export default function HomeScreen() {
               style={{
                 height: 500,
                 marginVertical: spacingY._10,
-                borderWidth: 3,
                 flexWrap: "nowrap"
               }}
             >

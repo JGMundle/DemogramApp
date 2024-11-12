@@ -25,6 +25,7 @@ export const Colors = {
   },
   defaultGrayBG: "#C2C2C2",
   darkGrayBG: "#f5f5f5",
-  lightGrayBG: "#e7e7e6"
+  lightGrayBG: "#e7e7e6",
+  dodgerBlue: "#3797EF"
 
 };

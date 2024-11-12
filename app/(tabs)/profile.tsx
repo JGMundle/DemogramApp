@@ -55,6 +55,7 @@ const profile = () => {
   const [capturedImage, setCapturedImage] = useState<ImagePicker.ImagePickerAsset[]>([]);
   const [images, setImages] = useState<ImagePicker.ImagePickerAsset[]>([]);
   const [rnImages, setRnImages] = useState<string | undefined>("");
+  const [openMenuDrawer, setOpenMenuDrawer] = useState<boolean>(false)
 
   // const rnImagePicker = async () => {
   //   launchImageLibrary(
@@ -130,8 +131,28 @@ const profile = () => {
       >
         <Text style={{ fontSize: 14, fontWeight: "bold" }}>Username</Text>
 
-        <FontAwesome name="navicon" size={28} />
+        <FontAwesome
+          name="navicon"
+          size={28}
+          onPress={() => setOpenMenuDrawer(!openMenuDrawer)}
+        />
       </View>
+
+      {openMenuDrawer && (
+        <View
+          style={{
+            position: "absolute",
+            borderWidth: 2,
+            backgroundColor: "whitesmoke",
+            top: 60,
+            right: 10,
+          }}
+        >
+          <Pressable onPress={() => router.navigate("/(auth)/HomeScreen")}>
+            <Text>Logout</Text>
+          </Pressable>
+        </View>
+      )}
 
       {/* Your Profile */}
       <View
@@ -268,28 +289,21 @@ const profile = () => {
           numColumns={numOfPostColumns}
           contentContainerStyle={styles.imageGrid}
           renderItem={({ item }) => (
-            <View style={{width: imagePostSize, height: imagePostSize}}>
-              <Image
-                source={item.img}
-                style={styles.image}
-                
-              />
+            <View style={{ width: imagePostSize, height: imagePostSize }}>
+              <Image source={item.img} style={styles.image} />
             </View>
           )}
         />
       ) : (
         <FlatList
-            showsVerticalScrollIndicator={false}
-            scrollEnabled
+          showsVerticalScrollIndicator={false}
+          scrollEnabled
           data={photoBucket}
-            numColumns={numOfPostColumns}
-            contentContainerStyle={styles.imageGrid}
+          numColumns={numOfPostColumns}
+          contentContainerStyle={styles.imageGrid}
           renderItem={({ item }) => (
-            <View style={{width: imagePostSize, height: imagePostSize}}>
-              <Image
-                style={styles.image}
-                source={item.img}
-              />
+            <View style={{ width: imagePostSize, height: imagePostSize }}>
+              <Image style={styles.image} source={item.img} />
             </View>
           )}
         />
