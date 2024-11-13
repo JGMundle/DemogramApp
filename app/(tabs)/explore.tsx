@@ -12,7 +12,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import BaseScreen from "@/components/screens/BaseScreen";
 import { useState } from "react";
 import { spacingX, spacingY } from "@/config/spacing";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import FilteringModal from "../modal/FilteringModal";
 import { useRouter } from "expo-router";
@@ -32,8 +32,18 @@ const { width } = Dimensions.get("window");
 const imagePostSize = Math.round(width / 2);
 
 export const photoBucket2 = [
-  { img: require("../../assets/images/Pexel/pexels-img1.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img2.jpg") },
+  {
+    img: [
+      require("../../assets/images/Pexel/pexels-img1.jpg"),
+      require("../../assets/images/Pexel/pexels-img7.jpg"),
+    ],
+  },
+  {
+    img: [
+      require("../../assets/images/Pexel/pexels-img2.jpg"),
+      require("../../assets/images/Pexel/pexels-img3.jpg"),
+    ],
+  },
   { img: require("../../assets/images/Pexel/pexels-img3.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img4.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img5.jpg") },
@@ -90,12 +100,17 @@ export default function TabTwoScreen() {
             marginLeft: 5,
             marginTop: 5,
           }}
-          renderItem={({ item }) => 
-              <Pressable onPress={() => router.push(`${item === "Shop" ? "/(screens)/shop": "/(tabs)/explore"}`)}>
-                <Text style={styles.Text}>{item}</Text>
-              </Pressable>
-           
-          }
+          renderItem={({ item }) => (
+            <Pressable
+              onPress={() =>
+                router.push(
+                  `${item === "Shop" ? "/(screens)/shop" : "/(tabs)/explore"}`
+                )
+              }
+            >
+              <Text style={styles.Text}>{item}</Text>
+            </Pressable>
+          )}
         />
       </View>
 
@@ -104,18 +119,40 @@ export default function TabTwoScreen() {
         numColumns={2}
         data={photoBucket2}
         contentContainerStyle={{ width: "100%", marginTop: 10 }}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <Pressable
             //Yellow brackets {} configuration object
             onPress={() =>
               router.navigate({
                 pathname: "/(screens)/UserPostDetailsScreen",
-                params: { ...item },
+                params: {...item},
               })
             }
           >
-            <View style={{ width: imagePostSize, height: imagePostSize }}>
-              <Image source={item.img} style={styles.image} />
+            <View
+              style={{
+                width: imagePostSize,
+                height: imagePostSize,
+                position: "relative",
+              }}
+            >
+              {(item.img as any[]).length > 1 && (
+                <Ionicons
+                  name="copy"
+                  size={24}
+                  color="white"
+                  style={{
+                    position: "absolute",
+                    zIndex: 10,
+                    top: 20,
+                    right: 20,
+                  }}
+                />
+              )}
+              <Image
+                source={(item.img as any[]).length > 1 ? item.img[0] : item.img}
+                style={styles.image}
+              />
             </View>
           </Pressable>
         )}
@@ -164,5 +201,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+    opacity: 0.8
   },
 });

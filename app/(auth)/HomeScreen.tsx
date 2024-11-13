@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View, Image, Button } from 'react-native'
-import React from 'react'
-import BaseScreen from '@/components/screens/BaseScreen'
-import { Colors } from '@/constants/Colors';
-import Animated from 'react-native-reanimated';
-import { useRouter } from 'expo-router';
-import AppButton from '@/components/basecomponents/AppButton';
+import { StyleSheet, Text, View, Image, Button } from "react-native";
+import React from "react";
+import BaseScreen from "@/components/screens/BaseScreen";
+import { Colors } from "@/constants/Colors";
+import Animated from "react-native-reanimated";
+import { useRouter } from "expo-router";
+import AppButton from "@/components/basecomponents/AppButton";
 const HomeScreen = () => {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <BaseScreen>
       <Animated.View>
@@ -25,12 +25,15 @@ const HomeScreen = () => {
             style={styles.Img}
           />
 
-          <Text>Username</Text>
+          <Text style={{marginTop: 15}}>Username</Text>
 
-          <AppButton customStyle={{width: "80%", borderRadius: 3}} title="Log in" onPress={() => router.push("/(auth)/LoginScreen")}/>
-            
-         
-          <Text style={{ fontWeight: "600", color: Colors.dodgerBlue }}>
+          <AppButton
+            customStyle={{ width: "80%", borderRadius: 3, marginTop: 10, padding: 10 }}
+            title="Log in"
+            onPress={() => router.push("/(auth)/LoginScreen")}
+          />
+
+          <Text style={{ fontWeight: "600", color: Colors.dodgerBlue, marginTop: 40 }}>
             Switch accounts
           </Text>
         </View>
@@ -52,19 +55,18 @@ const HomeScreen = () => {
       </Animated.View>
     </BaseScreen>
   );
-}
+};
 
-export default HomeScreen
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   Img: {
     width: 100,
     height: 100,
-    borderRadius: 50
+    borderRadius: 50,
+    marginTop: 50
   },
   loginBtn: {
-    width: "100%"
-
-  }
-  
-})
+    width: "100%",
+  },
+});
