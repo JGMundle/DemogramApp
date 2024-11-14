@@ -41,7 +41,7 @@ const UserPostDetailsScreen = () => {
               <MaterialCommunityIcons name="chevron-left" size={32} style={{backgroundColor: Colors.darkGrayBG}} />
           </Pressable>
         <Image
-          source={Number(itemData.url)}
+          source={Number(itemData.img[0])}
           style={{ width: 400, height: 400 }}
         />
 

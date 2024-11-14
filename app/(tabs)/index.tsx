@@ -1,5 +1,5 @@
 import BaseScreen from "@/components/screens/BaseScreen";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FlatList } from "react-native";
 import { ReactElement, useCallback, useEffect, useState } from "react";
@@ -10,6 +10,9 @@ import Animated from "react-native-reanimated";
 import axios from "axios";
 import { spacingY } from "@/config/spacing";
 import { normalizeY } from "@/utils/normalize";
+import Feather from "@expo/vector-icons/build/Feather";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const Users = [
   { profile: <UserPost username="User" postTitle="This is my title" />, id: 1 },
@@ -63,11 +66,29 @@ export default function HomeScreen() {
           padding: 5,
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
+          gap: 20,
         }}
       >
+        <Pressable onPress={() => router.push("/(tabs)/addcontent")}>
+          <Feather name="camera" size={27} />
+        </Pressable>
+
         <View>
-          <Text style={{ fontSize: 30 }}>Instagram</Text>
+          <Image
+            source={require("@/assets/images/Instagramlogo.png")}
+            style={{ width: 190, height: 60 }}
+          />
+        </View>
+
+        <View style={{ flexDirection: "row", gap: 20 }}>
+          <Pressable onPress={() => router.push("/(screens)/IGTVScreen")}>
+            <MaterialCommunityIcons name="television-classic" size={27} />
+          </Pressable>
+
+          <Pressable onPress={() => router.push("/(screens)/MessagesScreen")}>
+            <Feather name="send" size={27} />
+          </Pressable>
         </View>
       </View>
 
@@ -111,7 +132,7 @@ export default function HomeScreen() {
               style={{
                 height: 500,
                 marginVertical: spacingY._10,
-                flexWrap: "nowrap"
+                flexWrap: "nowrap",
               }}
             >
               {item.profile}

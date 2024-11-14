@@ -15,7 +15,10 @@ export default function ScreenLayout() {
           name="UserPostDetailsScreen"
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="shop" options={{ headerShown: false }} />
+      <Stack.Screen name="shop" options={{ headerShown: false }} />
+      <Stack.Screen name="EditProfile" options={{ headerShown: false }} />
+      <Stack.Screen name="MessagesScreen" options={{ headerShown: false }} />
+      <Stack.Screen name="IGTVScreen" options={{ headerShown: false }}/>
       </Stack>
   );
 }

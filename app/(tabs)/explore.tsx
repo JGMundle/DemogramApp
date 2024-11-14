@@ -12,7 +12,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import BaseScreen from "@/components/screens/BaseScreen";
 import { useState } from "react";
 import { spacingX, spacingY } from "@/config/spacing";
-import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import FilteringModal from "../modal/FilteringModal";
 import { useRouter } from "expo-router";
@@ -38,22 +38,17 @@ export const photoBucket2 = [
       require("../../assets/images/Pexel/pexels-img7.jpg"),
     ],
   },
-  {
-    img: [
-      require("../../assets/images/Pexel/pexels-img2.jpg"),
-      require("../../assets/images/Pexel/pexels-img3.jpg"),
-    ],
-  },
-  { img: require("../../assets/images/Pexel/pexels-img3.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img4.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img5.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img6.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img7.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img8.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img9.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img12.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img13.jpg") },
-  { img: require("../../assets/images/Pexel/pexels-img14.jpg") },
+  { img: [require("../../assets/images/Pexel/pexels-img2.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img3.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img4.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img5.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img6.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img7.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img8.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img9.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img12.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img13.jpg")] },
+  { img: [require("../../assets/images/Pexel/pexels-img14.jpg")] },
 ];
 
 export default function TabTwoScreen() {
@@ -100,7 +95,7 @@ export default function TabTwoScreen() {
             marginLeft: 5,
             marginTop: 5,
           }}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <Pressable
               onPress={() =>
                 router.push(
@@ -108,7 +103,19 @@ export default function TabTwoScreen() {
                 )
               }
             >
-              <Text style={styles.Text}>{item}</Text>
+              <Text style={styles.Text}>
+                {index === 0 && (
+                  <MaterialCommunityIcons
+                    name="television"
+                    size={18}
+                    color="black"
+                  />
+                )}
+                {index === 1 && (
+                  <FontAwesome5 name="shopping-bag" size={18} color="black" />
+                )}
+                <Text style={{paddingLeft: index <=1 ? spacingX._5 : 0}}>{item}</Text>
+              </Text>
             </Pressable>
           )}
         />
@@ -125,7 +132,7 @@ export default function TabTwoScreen() {
             onPress={() =>
               router.navigate({
                 pathname: "/(screens)/UserPostDetailsScreen",
-                params: {...item},
+                params: { ...item },
               })
             }
           >
@@ -149,10 +156,7 @@ export default function TabTwoScreen() {
                   }}
                 />
               )}
-              <Image
-                source={(item.img as any[]).length > 1 ? item.img[0] : item.img}
-                style={styles.image}
-              />
+              <Image source={item.img[0]} style={styles.image} />
             </View>
           </Pressable>
         )}
@@ -196,11 +200,13 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     paddingVertical: 5,
     paddingHorizontal: 10,
+    alignItems: "center",
+    
   },
 
   image: {
     width: "100%",
     height: "100%",
-    opacity: 0.8
+    opacity: 0.8,
   },
 });
