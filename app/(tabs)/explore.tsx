@@ -67,6 +67,9 @@ export default function TabTwoScreen() {
           style={styles.inputField}
         />
 
+        <Pressable onPress={() => router.push("/(screens)/VideoScreen")}>
+          <MaterialCommunityIcons name="video-3d" size={28} />
+        </Pressable>
         <Pressable
           style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 }]}
           onPress={() => setIsFiltering(!isFiltering)}

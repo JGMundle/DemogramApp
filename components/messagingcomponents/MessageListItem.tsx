@@ -60,8 +60,8 @@ const MessageListItem = ({
             {message.substring(0, 31)}...
           </Text>
           <View style={{flexDirection: "row", alignItems: "center"}}>
-          <Text style={{ color: "gray", right: 10 }}>{timestamp}</Text>
-            <Feather name="camera" size={30} color="gray" />
+          <Text style={{ color: "gray", right: 30 }}>{timestamp}</Text>
+            <Feather name="camera" size={30} color="gray" style={{right: 9}} />
           </View>
         </View>
       </View>
