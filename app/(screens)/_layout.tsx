@@ -19,6 +19,7 @@ export default function ScreenLayout() {
       <Stack.Screen name="EditProfile" options={{ headerShown: false }} />
       <Stack.Screen name="MessagesScreen" options={{ headerShown: false }} />
       <Stack.Screen name="IGTVScreen" options={{ headerShown: false }}/>
+      <Stack.Screen name="SearchPicks" options={{ headerShown: false }}/>
       </Stack>
   );
 }

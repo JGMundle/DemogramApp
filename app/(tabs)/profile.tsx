@@ -57,7 +57,7 @@ const profile = () => {
   const [rnImages, setRnImages] = useState<string | undefined>("");
   const [openMenuDrawer, setOpenMenuDrawer] = useState<boolean>(false)
 
-  const menuOptions = ["Logout", "Edit Profile"]
+  const menuOptions = ["Logout", "Edit Profile", "All Posts"]
 
   // const rnImagePicker = async () => {
   //   launchImageLibrary(
@@ -154,7 +154,8 @@ const profile = () => {
         >
 
           {menuOptions.map((option, index) => (
-          <Pressable key={index} onPress={() => index === 0 ? router.navigate("/(auth)/HomeScreen") : index === 1 && router.push("/EditProfile")}>
+            <Pressable key={index} onPress={() => index === 0 ? router.navigate("/(auth)/HomeScreen") : index === 1 ? router.push("/EditProfile") 
+            : index === 2 && router.push("/SearchPicks")}>
               <Text style={{fontWeight: "600", fontSize: 15}}>{option}</Text>
           </Pressable>
 
