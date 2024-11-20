@@ -16,6 +16,7 @@ import { FontAwesome5, Ionicons, MaterialCommunityIcons, Octicons } from "@expo/
 import { Colors } from "@/constants/Colors";
 import FilteringModal from "../modal/FilteringModal";
 import { useRouter } from "expo-router";
+import { normalizeX } from "@/utils/normalize";
 
 const Tabs = [
   "IGTV",
@@ -106,7 +107,7 @@ export default function TabTwoScreen() {
                 )
               }
             >
-              <Text style={styles.Text}>
+              <View style={styles.Text}>
                 {index === 0 && (
                   <MaterialCommunityIcons
                     name="television"
@@ -118,7 +119,7 @@ export default function TabTwoScreen() {
                   <FontAwesome5 name="shopping-bag" size={18} color="black" />
                 )}
                 <Text style={{paddingLeft: index <=1 ? spacingX._5 : 0}}>{item}</Text>
-              </Text>
+              </View>
             </Pressable>
           )}
         />
@@ -204,6 +205,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     alignItems: "center",
+    flexDirection: "row"
     
   },
 
