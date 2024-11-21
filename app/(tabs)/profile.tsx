@@ -57,7 +57,7 @@ const profile = () => {
   const [rnImages, setRnImages] = useState<string | undefined>("");
   const [openMenuDrawer, setOpenMenuDrawer] = useState<boolean>(false)
 
-  const menuOptions = ["Logout", "Edit Profile", "All Posts"]
+  const menuOptions = ["Logout", "Search Picks", "All Posts"]
 
   // const rnImagePicker = async () => {
   //   launchImageLibrary(
@@ -149,16 +149,20 @@ const profile = () => {
             top: 60,
             right: 10,
             zIndex: 10,
-            gap: 10
+            gap: 10,
           }}
         >
-
           {menuOptions.map((option, index) => (
-            <Pressable key={index} onPress={() => index === 0 ? router.navigate("/(auth)/HomeScreen") : index === 1 ? router.push("/EditProfile") 
-            : index === 2 && router.push("/SearchPicks")}>
-              <Text style={{fontWeight: "600", fontSize: 15}}>{option}</Text>
-          </Pressable>
-
+            <Pressable
+              key={index}
+              onPress={() =>
+                index === 0
+                  ? router.navigate("/(auth)/HomeScreen")
+                  : index === 1 ? router.push("/SearchPicks") : index === 2 && router.push("/(screens)/AddImage")
+              }
+            >
+              <Text style={{ fontWeight: "600", fontSize: 15 }}>{option}</Text>
+            </Pressable>
           ))}
         </View>
       )}
@@ -213,7 +217,10 @@ const profile = () => {
         </View>
       </View>
 
-      <Pressable style={styles.editProfileBtn}>
+      <Pressable
+        style={styles.editProfileBtn}
+        onPress={() => router.push("/EditProfile")}
+      >
         <Typo style={{ fontWeight: "bold" }}>
           <Text>Edit Profile</Text>
         </Typo>

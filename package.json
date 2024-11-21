@@ -17,6 +17,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
     "@hookform/resolvers": "^3.9.1",
+    "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-community/hooks": "^3.0.0",
     "@react-navigation/native": "^7.0.3",
     "@types/react-native-vector-icons": "^6.4.18",
@@ -27,9 +28,11 @@
     "expo-constants": "~17.0.3",
     "expo-font": "~13.0.1",
     "expo-gl": "~15.0.2",
+    "expo-image": "~2.0.1",
     "expo-image-picker": "~16.0.2",
     "expo-images": "^1.0.0",
     "expo-linking": "~7.0.2",
+    "expo-media-library": "^17.0.2",
     "expo-router": "~4.0.6",
     "expo-splash-screen": "~0.29.11",
     "expo-status-bar": "~2.0.0",
@@ -39,6 +42,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "^7.53.2",
     "react-native": "0.76.2",
+    "react-native-async-storage": "^0.0.1",
     "react-native-dialog": "^9.3.0",
     "react-native-gesture-handler": "^2.20.2",
     "react-native-reanimated": "~3.16.1",
@@ -47,8 +51,7 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
     "zod": "^3.23.8",
-    "zustand": "^5.0.1",
-    "expo-image": "~2.0.1"
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

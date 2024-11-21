@@ -25,7 +25,7 @@ const EditProfile = () => {
         }}
       >
         <Pressable onPress={() => router.back()}>
-          <Text style={styles.Text}>Cancel</Text>
+          <Text style={{ fontSize: 20 }}>Cancel</Text>
         </Pressable>
 
         <Text style={{ fontSize: 20, fontWeight: "600" }}>Edit Profile</Text>
@@ -138,7 +138,6 @@ const EditProfile = () => {
 export default EditProfile;
 
 const styles = StyleSheet.create({
-  Text: { fontSize: 20 },
 
   DetailContainer: {
     flexDirection: "column",

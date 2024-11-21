@@ -12,9 +12,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import BaseScreen from "@/components/screens/BaseScreen";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import ActivityItem, { ActivityCard } from "@/components/ActivityItem";
-import ActivityItemGroup from "@/components/ActivityItemGroup";
-import axios from "axios";
-import { useRouter } from "expo-router";
 
 
  enum UserActions {
@@ -69,8 +66,6 @@ import { useRouter } from "expo-router";
 const reels = () => {
   const [gridSelected, setGridSelected] = useState<boolean>(false);
   const [userActivityData, setUserActivityData] = useState<User[]>();
-
-  const router = useRouter()
 
 
   return (
