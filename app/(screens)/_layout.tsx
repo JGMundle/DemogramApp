@@ -22,6 +22,9 @@ export default function ScreenLayout() {
       <Stack.Screen name="SearchPicks" options={{ headerShown: false }}/>
       <Stack.Screen name="AddImage" options={{ headerShown: false }}/>
       <Stack.Screen name="UserItemScreen" options={{ headerShown: false }}/>
+      <Stack.Screen name="InstagramLive" options={{ headerShown: false }}/>
+      <Stack.Screen name="MyInstagramLive" options={{ headerShown: false }}/>
+      <Stack.Screen name="InstagramStory" options={{ headerShown: false }}/>
       </Stack>
   );
 }

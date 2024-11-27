@@ -22,12 +22,12 @@ type BasketStore = {
 
 
 // Create our store
-
 export const useBasketStore = create<BasketStore>((set) => ({
     items: [],
     favoritedItems: [],
     addItem: (item) => 
         set((state) => {
+            //Find an item in the array by 
             const existingItem = state.items.find((i) => i.id === item.id)
             if (existingItem) {
                 return {

@@ -40,7 +40,7 @@ const EditProfile = () => {
         {/* Profile picture */}
         <View style={{ alignItems: "center" }}>
           <Image
-            source={require("../../assets/images/Pexel/pexels-img4.jpg")}
+            source={require("../../assets/images/JuewellProfilepic.jpg")}
             style={{ width: 100, height: 100, borderRadius: 50, marginTop: 50 }}
           />
 

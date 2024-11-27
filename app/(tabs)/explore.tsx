@@ -103,7 +103,13 @@ export default function TabTwoScreen() {
             <Pressable
               onPress={() =>
                 router.push(
-                  `${item === "Shop" ? "/(screens)/shop" : "/(tabs)/explore"}`
+                  `${
+                    item === "Shop" // Routes you to the "shop screen"
+                      ? "/(screens)/shop"
+                      : item === "IGTV"
+                      ? "/(screens)/IGTVScreen" // Routes you to the "IGTV screen"
+                      : "/(tabs)/explore"
+                  }`
                 )
               }
             >
@@ -118,7 +124,9 @@ export default function TabTwoScreen() {
                 {index === 1 && (
                   <FontAwesome5 name="shopping-bag" size={18} color="black" />
                 )}
-                <Text style={{paddingLeft: index <=1 ? spacingX._5 : 0}}>{item}</Text>
+                <Text style={{ paddingLeft: index <= 1 ? spacingX._5 : 0 }}>
+                  {item}
+                </Text>
               </View>
             </Pressable>
           )}

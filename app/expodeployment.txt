@@ -1,0 +1,36 @@
+
+
+
+
+From expo to production fo android devices expo builds a final file for the playstore:
+.aab 
+
+
+For ios its a .ipa(iOS)
+
+
+
+
+/You can also take the production files (.aab and .ipa) and upload manual to the follow:
+ - Android (.aab) - Google Play Console
+ - Apple (.ipa) - App Stre Connect
+
+
+npm install --global eas-cli && eas init --id e7e9c9fe-b992-4dd3-86f3-325a8f25ac5e
+//Project ID (uuid) - e7e9c9fe-b992-4dd3-86f3-325a8f25ac5e
+
+
+//STEP1
+//npx expo-optimize (Runs a compression algorithm to compress assets and images)
+
+//Command to build the production version of the Application
+eas build:configure
+
+//STEP 2
+//ios build - eas build --platform ios
+//android - eas build --patform android
+
+//STEP 3
+//EAS - Expo Application Service
+//eas sumbit  --platform android - Google Play Developer account - $25 for life
+//eas submit --platform ios - Apple Developer Code - $79 year 

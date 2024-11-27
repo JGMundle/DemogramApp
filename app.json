@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "demo",
-    "slug": "demo",
+    "slug": "demogram",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,12 +16,14 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.facebook.juewellsapp",
+      "versionCode": "1",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.READ_EXTERNAL_STORAGE", 
+        "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.CAMERA",
         "android.permission.ACCESS_MEDIA_LOCATION",
@@ -36,14 +38,16 @@
     "plugins": [
       "expo-router",
       [
-        "expo-media-library", {
+        "expo-media-library",
+        {
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
           "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
           "isAccessMediaLocationEnabled": true
         }
       ],
       [
-        "expo-camera", {
+        "expo-camera",
+        {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
@@ -52,6 +56,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e7e9c9fe-b992-4dd3-86f3-325a8f25ac5e"
+      }
+    },
+    "owner": "jsacdm"
   }
 }

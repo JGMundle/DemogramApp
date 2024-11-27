@@ -34,7 +34,17 @@ const cameraOptions = [
   { type: "Reel" },
   { type: "Live" },
 ];
+const { width } = Dimensions.get("window")
+const ITEM_WIDTH = 100
+const SPACING = 10
+const CENTER_OFFSET = (width - ITEM_WIDTH) /2 //This equals the middle of the screen
 
+
+
+//camera modes
+
+
+  const modes = ["Post", "Story", "Reel", "Live"];
 const addcontent = () => {
   //iOS = screen and the window are the same value
   //android = screen and the window value are not the same
@@ -42,6 +52,16 @@ const addcontent = () => {
   const orientation = useDeviceOrientation();
   const segments = useSegments();
   const router = useRouter();
+
+  // Camera options 
+  const scrollX = useRef(new Animated.Value(0))
+
+  //0 -100 --> 0 to 1
+  // 0 = 0
+  // 0.5 = 50
+
+  
+
 
   const [cameraMenuIndex, setCameraMenuIndex] = useState<number>(1);
   const [cameraPermission, setCameraPermission] = useState<boolean>();
@@ -114,6 +134,36 @@ const addcontent = () => {
     }
   };
 
+
+
+    const renderItem = ({ item, index }) => {
+    const inputRange = [
+      (index - 1) * ITEM_WIDTH,
+      index * ITEM_WIDTH,
+      (index + 1) * ITEM_WIDTH
+    ]
+    //This is for the horizontal scrolling left to right vise vera
+    const scale = scrollX.current.interpolate({
+      inputRange,
+      outputRange: [0.8, 1, 0.8],
+      extrapolate: "clamp" //keep the 0.8 values static no matter how many new items are in the list
+    })
+
+    const opacity = scrollX.current.interpolate({
+      inputRange,
+      outputRange: [0.5, 1, 0.5],
+      extrapolate: "clamp"
+    })
+
+    return (
+      <View style={{ width: ITEM_WIDTH }}>
+        <Animated.Text style={[styles.modeText, { transform: [{ scale }], opacity }]}>
+          {item}
+        </Animated.Text>
+      </View>
+    )
+
+  }
   //Take a Video
 
   // const handleRightSwipe = () => {};
@@ -144,7 +194,7 @@ const addcontent = () => {
       </View>
 
       <View
-        style={{position: "absolute", bottom: normalizeY(50), right: normalizeX(139), zIndex: 100}}
+        style={{ position: "absolute", bottom: normalizeY(50), right: normalizeX(139), zIndex: 100 }}
       >
         <TouchableOpacity onPress={takePhoto}>
           <Feather name="circle" size={normalizeX(60)} color={"whitesmoke"} />
@@ -170,27 +220,35 @@ const addcontent = () => {
         >
           <FlatList
             contentContainerStyle={{
-              flexDirection: "row",
-              gap: 10,
+              paddingHorizontal: CENTER_OFFSET
             }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            data={cameraOptions}
-            renderItem={({ item }) => (
-              <View>
-                <Text style={{ fontSize: 18 }}>{item.type}</Text>
-              </View>
+            data={modes}
+            renderItem={renderItem}
+            decelerationRate="fast"
+            onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              {useNativeDriver: true}
             )}
           />
         </View>
       </CameraView>
     </>
-  );
-};
-
+  )
+}
 export default addcontent;
 
+
+
+
+
 const styles = StyleSheet.create({
+  modeText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#000000"
+  },
   container: {
     flex: 1,
     justifyContent: "center",

@@ -5,8 +5,9 @@ import {
   Pressable,
   FlatList,
   Dimensions,
+  Image as RNImage
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState,  } from "react";
 import { router } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -48,7 +49,7 @@ const AddImage = () => {
     //useCallback
     //memoization
     const userAlbumAssets = await getAssetsAsync({
-      album: fetchedAlbum.find((album) => album.title === "Recents"), //find the recents album by its title
+      album: fetchedAlbum.find((album) => album.title === "Recentsd"), //find the recents album by its title
       mediaType: ["video", "photo"],
       sortBy: "creationTime",
     });
@@ -134,7 +135,6 @@ const AddImage = () => {
         </View>
       </View>
       {/* End of Large Image Selector */}
-
       {gridSelected2 === 0 && (
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -146,7 +146,8 @@ const AddImage = () => {
           data={assets}
           renderItem={({ item }) => (
             <View>
-              <Image source={item.uri} />
+              <Image source={ item.uri } />
+              {/* <RNImage source={{uri: item.uri}} />  */}
             </View>
           )}
         />

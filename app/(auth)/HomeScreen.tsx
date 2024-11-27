@@ -66,7 +66,7 @@ const HomeScreen = () => {
     const permissionGranted = await requestAllUserPermissions();
     console.log(permissionGranted);
     if (permissionGranted) {
-      return;
+      return
     } else {
       Alert.alert(
         "No Permissions Provided",
@@ -109,7 +109,7 @@ const HomeScreen = () => {
           <Text style={{ fontSize: 30 }}>Instagram</Text>
 
           <Image
-            source={require("../../assets/images/Pexel/pexels-img4.jpg")}
+            source={require("../../assets/images/JuewellProfilepic.jpg")}
             style={styles.Img}
           />
 

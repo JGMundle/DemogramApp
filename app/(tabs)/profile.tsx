@@ -22,6 +22,7 @@ import { router } from "expo-router";
 
 import ImageArrayComponent from "@/components/ImageArrayComponent";
 import * as ImagePicker from "expo-image-picker";
+import { normalizeX, normalizeY } from "@/utils/normalize";
 
 //Screen Dimension Logic
 const { width } = Dimensions.get("window");
@@ -48,6 +49,8 @@ export const photoBucket = [
   { img: require("../../assets/images/Pexel/pexels-img7.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img8.jpg") },
   { img: require("../../assets/images/Pexel/pexels-img9.jpg") },
+  { img: require("@/assets/images/Pexel/FlowersOnABike.jpg") },
+  { img: require("@/assets/images/Pexel/KoreanBackAlley.jpg") },
 ];
 
 const profile = () => {
@@ -57,7 +60,7 @@ const profile = () => {
   const [rnImages, setRnImages] = useState<string | undefined>("");
   const [openMenuDrawer, setOpenMenuDrawer] = useState<boolean>(false)
 
-  const menuOptions = ["Logout", "Search Picks", "All Posts"]
+  const menuOptions = ["Logout", "Search Picks", "All Posts", "My Instagram LIVE"]
 
   // const rnImagePicker = async () => {
   //   launchImageLibrary(
@@ -158,7 +161,11 @@ const profile = () => {
               onPress={() =>
                 index === 0
                   ? router.navigate("/(auth)/HomeScreen")
-                  : index === 1 ? router.push("/SearchPicks") : index === 2 && router.push("/(screens)/AddImage")
+                  : index === 1
+                  ? router.push("/SearchPicks")
+                  : index === 2
+                  ? router.push("/(screens)/AddImage")
+                  : index === 3 && router.push("/MyInstagramLive")
               }
             >
               <Text style={{ fontWeight: "600", fontSize: 15 }}>{option}</Text>
@@ -182,7 +189,10 @@ const profile = () => {
             gap: 40,
           }}
         >
-          <FontAwesome name="user-circle" size={60} />
+          <Image
+            source={require("../../assets/images/JuewellProfilepic.jpg")}
+            style={{ width: normalizeX(60), height: normalizeY(60), borderRadius: 50, marginTop: 20 }}
+          />
 
           <View style={styles.socialMetric}>
             <Text style={{ fontWeight: "bold" }}>500</Text>

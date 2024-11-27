@@ -9,10 +9,11 @@ import UserPost from "@/components/UserPost";
 import Animated from "react-native-reanimated";
 import axios from "axios";
 import { spacingY } from "@/config/spacing";
-import { normalizeY } from "@/utils/normalize";
+import { normalizeX, normalizeY } from "@/utils/normalize";
 import Feather from "@expo/vector-icons/build/Feather";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { ResizeMode } from "expo-av";
 
 const Users = [
   { profile: <UserPost username="User" postTitle="This is my title" />, id: 1 },
@@ -58,6 +59,16 @@ export default function HomeScreen() {
   // }, [])
 
   //Play sound or run animated effect
+  const [videos, setVideos] = useState([])
+  
+  useEffect(() => {
+    const getVideos = async () => {
+      const response = await axios.get("http://localhost:3000/api/v1/videos");
+      const data = response.data;
+
+      setVideos(data)
+    };
+  }, [])
 
   return (
     <BaseScreen>
@@ -70,6 +81,7 @@ export default function HomeScreen() {
           gap: 20,
         }}
       >
+        {/* This routes you to the camera page where you can take a photo of yourself and post it, post reels, post pictures you've took before hand, or go Live. */}
         <Pressable onPress={() => router.push("/(tabs)/addcontent")}>
           <Feather name="camera" size={27} />
         </Pressable>
@@ -81,6 +93,7 @@ export default function HomeScreen() {
           />
         </View>
 
+        {/* This routes you to IGTV, where you can catch up with videos that people post */}
         <View style={{ flexDirection: "row", gap: 20 }}>
           <Pressable onPress={() => router.push("/(screens)/IGTVScreen")}>
             <MaterialCommunityIcons name="television-classic" size={27} />
@@ -99,27 +112,45 @@ export default function HomeScreen() {
           borderBottomWidth: 0.5,
           paddingBottom: 9,
         }}
-      >
+      > 
+        {/* FlatList containing all the profiles for the user and people they're following */}
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
           data={userData}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
-            <UserStoryListItem
-              _onPress={() => console.log(index)}
-              index={index}
-              user={item}
-            />
+            <Pressable
+              onPress={() =>
+                index === 2
+                  ? router.push("/(screens)/InstagramLive")
+                  : index === 1 ? router.push("/(screens)/InstagramStory") : console.log(index)
+              }
+              key={index}
+              style={{ maxHeight: 90, alignItems: "center" }}
+            >
+              <Image
+                source={item.userPicture}
+                style={{
+                  maxWidth: "100%",
+                  height: normalizeY(60),
+                  width: normalizeX(60),
+                  borderRadius: 50,
+                  marginHorizontal: 5,
+                }}
+                resizeMode={ResizeMode.COVER}
+              />
+              <Text>{item.username}</Text>
+            </Pressable>
           )}
         />
       </View>
 
+      {/* FlatList for the videos and photos that people post. You can save, like, comment and share this video */}
       <Animated.FlatList
         contentContainerStyle={{
           flexGrow: 1,
           borderColor: "blue",
-          // padding: spacingY._10,
         }}
         scrollEnabled
         horizontal={false}
@@ -127,7 +158,7 @@ export default function HomeScreen() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           return (
-            //
+
             <Animated.View
               style={{
                 height: 500,

@@ -77,6 +77,7 @@ const IGTVScreen = () => {
         }}
       >
         <Pressable
+        
           onPress={() => {
             router.back();
             playSound();
