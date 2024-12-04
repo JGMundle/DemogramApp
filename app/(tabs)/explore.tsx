@@ -8,16 +8,19 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import BaseScreen from "@/components/screens/BaseScreen";
 import { useState } from "react";
 import { spacingX, spacingY } from "@/config/spacing";
-import { FontAwesome5, Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import {
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import FilteringModal from "../modal/FilteringModal";
 import { useRouter } from "expo-router";
-import { normalizeX } from "@/utils/normalize";
 
+// This variable contains all the names of the little tabs you see below the search bar
 const Tabs = [
   "IGTV",
   "Shop",
@@ -32,6 +35,7 @@ const Tabs = [
 const { width } = Dimensions.get("window");
 const imagePostSize = Math.round(width / 2);
 
+// A variable that contains all the different images you see on explore
 export const photoBucket2 = [
   {
     img: [
@@ -53,14 +57,18 @@ export const photoBucket2 = [
 ];
 
 export default function TabTwoScreen() {
-  const [searchInputData, setSearchInputData] = useState<string>();
-  const [isFiltering, setIsFiltering] = useState<boolean>(false);
-  const router = useRouter();
+  const [searchInputData, setSearchInputData] = useState<string>(); // This useState variable keeps track of what the user types in the search bar
+  const [isFiltering, setIsFiltering] = useState<boolean>(false); // This useState variable is for a filtering modal that shows up when you press it
+  const router = useRouter(); //This is used for navigation
   console.log(searchInputData);
+
+
   return (
     <BaseScreen>
       <View style={styles.searchBar}>
         <MaterialCommunityIcons name="magnify" size={25} />
+
+        {/* The search bar */}
         <TextInput
           placeholder="Search"
           value={searchInputData}
@@ -68,9 +76,12 @@ export default function TabTwoScreen() {
           style={styles.inputField}
         />
 
+        {/* One of the tabs you can press to navigate to IGTV */}
         <Pressable onPress={() => router.push("/(screens)/VideoScreen")}>
           <MaterialCommunityIcons name="video-3d" size={28} />
         </Pressable>
+
+        {/* When pressed, it opens a filtering modal */}
         <Pressable
           style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 }]}
           onPress={() => setIsFiltering(!isFiltering)}
@@ -82,12 +93,14 @@ export default function TabTwoScreen() {
           />
         </Pressable>
 
+        {/* The Filtering Modal */}
         <FilteringModal isVisible={isFiltering} />
       </View>
 
       {/* Mini Tabs */}
 
       <View style={{ flexDirection: "row" }}>
+        {/* The FlatList that contains all the little tabs you see below the search bar */}
         <FlatList
           // entering={FadeInUp.delay(100).springify().damping(12).stiffness(100)}
           horizontal
@@ -142,7 +155,7 @@ export default function TabTwoScreen() {
           <Pressable
             //Yellow brackets {} configuration object
             onPress={() =>
-              router.navigate({
+              router.navigate({ //Pressing one of the images results in taking you to a screen where it gives you more info about it
                 pathname: "/(screens)/UserPostDetailsScreen",
                 params: { ...item },
               })
@@ -213,8 +226,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     alignItems: "center",
-    flexDirection: "row"
-    
+    flexDirection: "row",
   },
 
   image: {

@@ -1,18 +1,33 @@
 import { StyleSheet, Text, View, TextInput, Pressable, Image } from 'react-native'
 import React, {useEffect, useRef} from 'react'
-import { ResizeMode, Video } from 'expo-av'
+import { ResizeMode } from 'expo-av'
 import { FontAwesome, AntDesign } from '@expo/vector-icons'
 import { router } from "expo-router"
 import { normalizeX, normalizeY } from '@/utils/normalize'
 import { Ionicons, Feather, Entypo } from '@expo/vector-icons'
 
+import { useVideoPlayer, VideoView } from 'expo-video'
+import { useEvent } from 'expo'
+
+const videoSource = "s3://demogrambucket/6003994-uhd_2160_3840_30fps.mp4";
 
 const InstagramLive = () => {
-  const autoPlay = useRef<Video>(null)
+  // const autoPlay = useRef<Video>(null)
 
-    useEffect(() => {
-      if (autoPlay.current) autoPlay.current.playAsync();
-    }, []);
+
+    // useEffect(() => {
+    //   if (autoPlay.current) autoPlay.current.playAsync();
+  // }, []);
+  
+
+  const player = useVideoPlayer(videoSource, player => {
+    player.loop = true
+    player.play()
+  })
+
+   const { isPlaying } = useEvent(player, "playingChange", {
+     isPlaying: player.playing,
+   });
   
   return (
     <View>
@@ -91,15 +106,15 @@ const InstagramLive = () => {
         </View>
       </View>
 
-      <Video
-        source={require("@/assets/images/PexelVideos/TikTokDanceDuo.mp4")}
-        style={{ width: "100%", height: "92%", borderRadius: 15 }}
+      {/* <Video
+        source={{ uri: "s3://demogrambucket/6003994-uhd_2160_3840_30fps.mp4" }}
+        style={}
         resizeMode={ResizeMode.COVER}
         isLooping
         ref={autoPlay}
-      />
+      /> */}
+      <VideoView nativeControls={false} style={{ width: "100%", height: "92%", borderRadius: 15 }} player={player} allowsFullscreen allowsPictureInPicture/>
 
-      
       {/* Bottom tab */}
       <View
         style={{

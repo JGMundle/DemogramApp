@@ -26,14 +26,15 @@ import { Camera, CameraType, CameraView } from "expo-camera";
 import { useRouter, useSegments } from "expo-router";
 import { normalizeX, normalizeY } from "@/utils/normalize";
 import { spacingX } from "@/config/spacing";
-// import Animated from "react-native-reanimated";
 
+// This variable contains all the options for the features you see when using the camera
 const cameraOptions = [
   { type: "Post" },
   { type: "Story" },
   { type: "Reel" },
   { type: "Live" },
 ];
+
 const { width } = Dimensions.get("window")
 const ITEM_WIDTH = 100
 const SPACING = 10
@@ -135,8 +136,8 @@ const addcontent = () => {
   };
 
 
-
-    const renderItem = ({ item, index }) => {
+    type renderProps = {item: any, index: number}
+    const renderItem = ({ item, index }: renderProps) => {
     const inputRange = [
       (index - 1) * ITEM_WIDTH,
       index * ITEM_WIDTH,
@@ -227,9 +228,9 @@ const addcontent = () => {
             data={modes}
             renderItem={renderItem}
             decelerationRate="fast"
-            onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }],
-              {useNativeDriver: true}
-            )}
+            // onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            //   {useNativeDriver: true}
+            // )}
           />
         </View>
       </CameraView>

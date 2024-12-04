@@ -60,7 +60,7 @@ const profile = () => {
   const [rnImages, setRnImages] = useState<string | undefined>("");
   const [openMenuDrawer, setOpenMenuDrawer] = useState<boolean>(false)
 
-  const menuOptions = ["Logout", "Search Picks", "All Posts", "My Instagram LIVE"]
+  const menuOptions = ["Logout", "Search Picks", "All Posts", "My Instagram LIVE", "HomeDrawer"]
 
   // const rnImagePicker = async () => {
   //   launchImageLibrary(
@@ -165,7 +165,7 @@ const profile = () => {
                   ? router.push("/SearchPicks")
                   : index === 2
                   ? router.push("/(screens)/AddImage")
-                  : index === 3 && router.push("/MyInstagramLive")
+                  : index === 3 ? router.push("/MyInstagramLive") : index === 4 && router.push("/(drawer)/Home")
               }
             >
               <Text style={{ fontWeight: "600", fontSize: 15 }}>{option}</Text>
@@ -173,6 +173,10 @@ const profile = () => {
           ))}
         </View>
       )}
+
+      
+      
+
 
       {/* Your Profile */}
       <View

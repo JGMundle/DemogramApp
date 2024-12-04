@@ -1,0 +1,63 @@
+
+
+
+
+Authentication Strategies
+
+1. JWT Authentication
+ - Private key + encryption algorithms that generate a base64 string 
+ - the token is stored in localStorage for pcs and async storage for mobile phones
+ - When you signup we generate a JWT
+ - When you signout we delete the 
+ 
+
+ When to use a JWT token?
+ 1. For simple authentication handling
+ 2. Mainly for mobile applications
+
+  Scenario: The user logs in and begins hacking into other people's accounts?
+  Solution: We going to wait until the users jwt expires 
+
+
+Advantages
+1. They do not require any storage
+2. Stateless
+3. Scalablity - We can grow a user base rapidly without having to worry about storage space for user data
+
+Disadavantages
+1. We do not have granular control over user activity
+2. Relatively less secure than db session security - HMAC (Do not use), AED, SHA
+
+2. DB Session Authentication
+ - A Unique Session ID is created and stored in the database
+ - Anytime you login the server its going look for your unique session id, 
+   if exists and it's not expired then you can login
+   
+
+ When to use a DB (Database) Session Authentication
+ 1. If you need granular control over user activity e.g. 
+
+ Scenario: The user logs in and begins hacking into other people's accounts
+ Solution: We can disable (invalidate) the users session and block him for staying logged in
+ 
+
+ Advantages
+ 1. We have granular contol over user sessions 
+ 2. We can store user session information to providing meaning full data driven decisions
+
+ Disadavantages
+ 1. Scalability issues to due the need to store data in the database 
+ 2. Slower Database query results because we have more and more data being stored in the database
+
+ 
+
+
+
+//Routing
+
+/api/v1/payments <--- you need to authorized user, without 401 - Unauthorized, 403 - Forbidden
+//403 - Even though you are authenticated user you cannot access this specifc area of the applicationa
+// You do not have  user access permissions 
+
+api/v1/admin/payment_history
+//401 - You are not an authenticated user therefore you cannot use this area of teh application

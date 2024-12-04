@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { ResizeMode } from "expo-av";
 
+// A variable that contains all the posts from different users on Instagram
 const Users = [
   { profile: <UserPost username="User" postTitle="This is my title" />, id: 1 },
   { profile: <UserPost username="User" postTitle="This is my title" />, id: 2 },
@@ -25,10 +26,7 @@ const Users = [
   { profile: <UserPost username="User" postTitle="This is my title" />, id: 7 },
   { profile: <UserPost username="User" postTitle="This is my title" />, id: 8 },
   { profile: <UserPost username="User" postTitle="This is my title" />, id: 9 },
-  {
-    profile: <UserPost username="User" postTitle="This is my title" />,
-    id: 10,
-  },
+  { profile: <UserPost username="User" postTitle="This is my title" />, id: 10 },
 ];
 
 export default function HomeScreen() {
@@ -57,18 +55,6 @@ export default function HomeScreen() {
   //    getUserProfiles() //Receive the server data
 
   // }, [])
-
-  //Play sound or run animated effect
-  const [videos, setVideos] = useState([])
-  
-  useEffect(() => {
-    const getVideos = async () => {
-      const response = await axios.get("http://localhost:3000/api/v1/videos");
-      const data = response.data;
-
-      setVideos(data)
-    };
-  }, [])
 
   return (
     <BaseScreen>
@@ -112,7 +98,7 @@ export default function HomeScreen() {
           borderBottomWidth: 0.5,
           paddingBottom: 9,
         }}
-      > 
+      >
         {/* FlatList containing all the profiles for the user and people they're following */}
         <FlatList
           horizontal
@@ -120,15 +106,19 @@ export default function HomeScreen() {
           data={userData}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
+            // When you press "Karennne", you'll see her story. When you press "Sarushka", you'll see her live with a friend
             <Pressable
               onPress={() =>
                 index === 2
                   ? router.push("/(screens)/InstagramLive")
-                  : index === 1 ? router.push("/(screens)/InstagramStory") : console.log(index)
+                  : index === 1
+                  ? router.push("/(screens)/InstagramStory")
+                  : console.log(index)
               }
               key={index}
               style={{ maxHeight: 90, alignItems: "center" }}
             >
+              {/* All the pictures of the users */}
               <Image
                 source={item.userPicture}
                 style={{
@@ -140,6 +130,7 @@ export default function HomeScreen() {
                 }}
                 resizeMode={ResizeMode.COVER}
               />
+              {/* All the names of the users */}
               <Text>{item.username}</Text>
             </Pressable>
           )}
@@ -158,7 +149,7 @@ export default function HomeScreen() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           return (
-
+            // All the posts that you see when scrolling down
             <Animated.View
               style={{
                 height: 500,
