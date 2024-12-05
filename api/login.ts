@@ -6,6 +6,4 @@ import { apiClient } from "./client";
 // /login = http://localhost:3000/api/v1/login
 const login = (email: string, password: string) => apiClient.post("/login", { email, password })
 
-export default {
-    login
-}
+export default login

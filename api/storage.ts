@@ -36,7 +36,7 @@ const storeUserToken = async (authToken: string) => {
         await SecureStorage.setItemAsync(headerKey, authToken)
         //if this was local storage it will be localStorage.setItem
     } catch (error) {
-        
+       console.error(error) 
     }
 }
 
@@ -51,6 +51,7 @@ const removeUserToken = async () => {
         console.log(error)
     }
 }
+
 
 export default {
     getUser,

@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { Colors } from "@/constants/Colors";
 import Constants from "expo-constants";
 const OfflineDisplay = () => {
-  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const networkInfo = useNetInfo();
   // !== unknown is true for a few seconds when you first connect to the internet or disconnect from the internet

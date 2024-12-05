@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import BaseScreen from "@/components/screens/BaseScreen";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
@@ -9,29 +9,41 @@ import AppButton from "@/components/basecomponents/AppButton";
 import { router } from "expo-router";
 import { spacingX, spacingY } from "@/config/spacing";
 import { Entypo } from "@expo/vector-icons";
+import BaseForm from "@/forms/BaseForm";
+import login from "@/api/login";
+import { loginValidationSchema } from "@/validation/validationSchema";
+import BaseTextInput from "@/forms/BaseTextInput";
+import BaseFormField from "@/forms/BaseFormField";
 
-const schema = z.object({
-  username: z
-    .string()
-    .min(2, { message: "Username should be atleast more than 2 characters" }),
-  password: z
-    .string()
-    .min(6, { message: "Password should be atleast more than 6 characters" }),
-});
-
-type loginData = z.infer<typeof schema>;
-
+interface LoginResponse {
+  token: string;
+}
 const LoginScreen = () => {
-  const {
-    control,
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<loginData>({ resolver: zodResolver(schema) });
+  const [error, setError] = useState<string>("");
   //We need a Controller component because we need to access the value prop and onChangeText prop
   //to pass into the TextInput Field
 
   //control - The form's state controller
+
+  const handleSubmit = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const response = await login(email, password);
+      if (!response.ok) {
+        setError(response.problem);
+      }
+
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+    }
+  };
   return (
     <BaseScreen>
       <View
@@ -43,38 +55,29 @@ const LoginScreen = () => {
         }}
       >
         <Text style={{ fontSize: 30, marginBottom: 50 }}>Instagram</Text>
-        <Controller
-          control={control}
-          name="username"
-          rules={{ required: "Username is required" }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Username"
-              placeholderTextColor={"gray"}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              style={styles.input}
-            />
-          )}
-        />
+        <BaseForm
+          initialValues={{ email: "", password: "" }}
+          onSubmit={handleSubmit}
+          validationSchema={loginValidationSchema}
+        >
+          <BaseFormField
+            iconName="email"
+            keyboardType="email-address"
+            placeholder="Enter your email"
+            fieldname="email"
+            secureTextEntry={false}
+            useIcon
+          />
 
-        <Controller
-          control={control}
-          name="password"
-          rules={{ required: "Password is required" }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor={"gray"}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              style={styles.input}
-              secureTextEntry
-            />
-          )}
-        />
+          <BaseFormField
+            iconName="key"
+            keyboardType="default"
+            placeholder="Enter your password"
+            fieldname="password"
+            secureTextEntry
+            useIcon
+          />
+        </BaseForm>
 
         <Text
           style={{
@@ -168,6 +171,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
     marginBottom: 10,
     textAlign: "left",
-    width: "90%"
+    width: "90%",
   },
 });
