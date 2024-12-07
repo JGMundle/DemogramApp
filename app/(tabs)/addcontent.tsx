@@ -12,7 +12,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ComponentProps, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import BaseScreen from "@/components/screens/BaseScreen";
@@ -21,11 +21,16 @@ import {
   Swipeable,
 } from "react-native-gesture-handler";
 import Typo from "@/components/basecomponents/Typo";
-import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
-import { Camera, CameraType, CameraView } from "expo-camera";
+import { AntDesign, Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Camera, CameraType, CameraView, FlashMode } from "expo-camera";
 import { useRouter, useSegments } from "expo-router";
 import { normalizeX, normalizeY } from "@/utils/normalize";
-import { spacingX } from "@/config/spacing";
+import { spacingX, spacingY } from "@/config/spacing";
+import { SFSymbol, SymbolView } from "expo-symbols";
+import CustomPressable from "@/forms/CustomPressable";
+import { Colors } from "@/constants/Colors";
+import * as MediaLibrary from "expo-media-library"
+
 
 // This variable contains all the options for the features you see when using the camera
 const cameraOptions = [
@@ -35,17 +40,56 @@ const cameraOptions = [
   { type: "Live" },
 ];
 
-const { width } = Dimensions.get("window")
-const ITEM_WIDTH = 100
-const SPACING = 10
-const CENTER_OFFSET = (width - ITEM_WIDTH) /2 //This equals the middle of the screen
+const { width } = Dimensions.get("window");
+const ITEM_WIDTH = 100;
+const SPACING = 10;
+const CENTER_OFFSET = (width - ITEM_WIDTH) / 2; //This equals the middle of the screen
 
-
+interface CustomIconButtonProps {
+  iosName: SFSymbol;
+  androidName: ComponentProps<typeof FontAwesome5>["name"];
+  width?: number;
+  height?: number;
+  onPress?: () => void;
+}
 
 //camera modes
+export const CustomIconButton = ({
+  iosName,
+  androidName,
+  width,
+  height,
+  onPress,
+}: CustomIconButtonProps) => {
+  const gIconSize = 30;
+  const gPadding = spacingY._7;
+  const gWidth = 38;
 
+  return (
+    <CustomPressable
+      onPress={onPress!}
+      style={[{ padding: gPadding, width: gWidth, borderRadius: spacingX._10 }]}
+    >
+      {/* When using Symbol View from expo, the fallback would the android version of symbol icons */}
+      {/* We can use the symbol view to provide a better native visual experience for our users */}
+      <SymbolView
+        shouldRasterizeIOS
+        name={iosName}
+        size={gIconSize}
+        style={
+          width && height
+            ? { width, height, alignSelf: "center" }
+            : { alignSelf: "center" }
+        }
+        type="multicolor"
+        tintColor={Colors.darkGrayBG}
+        fallback={<FontAwesome5 size={gIconSize} name={androidName} />}
+      />
+    </CustomPressable>
+  );
+};
 
-  const modes = ["Post", "Story", "Reel", "Live"];
+const modes = ["Post", "Story", "Reel", "Live"];
 const addcontent = () => {
   //iOS = screen and the window are the same value
   //android = screen and the window value are not the same
@@ -54,23 +98,23 @@ const addcontent = () => {
   const segments = useSegments();
   const router = useRouter();
 
-  // Camera options 
-  const scrollX = useRef(new Animated.Value(0))
+  // Camera options
+  const scrollX = useRef(new Animated.Value(0));
 
   //0 -100 --> 0 to 1
   // 0 = 0
   // 0.5 = 50
 
-  
-
-
   const [cameraMenuIndex, setCameraMenuIndex] = useState<number>(1);
   const [cameraPermission, setCameraPermission] = useState<boolean>();
   const [isCameraReady, setIsCameraReady] = useState<boolean>();
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false)
 
   const [micPermission, setMicPermission] = useState<boolean>();
   const [isMicReady, setIsMicReady] = useState<boolean>();
   const [facing, setFacing] = useState<CameraType>("back");
+  const [flash, setFlash] = useState<FlashMode>("auto");
+  const [enableTorch, setEnableTorch] = useState<boolean>(false);
 
   // const [cameraRef, setCameraRef] = useState<Camera | null>(null)
   const cameraRef = useRef<CameraView | null>(null);
@@ -85,6 +129,11 @@ const addcontent = () => {
     const { status } = await Camera.requestMicrophonePermissionsAsync();
     setCameraPermission(status === "granted");
   };
+
+  const handleMediaLibraryPermissions = async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync()
+    setHasMediaLibraryPermission(status === "granted") //status === "granted" is a boolean expression that returns true or false
+  }
 
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
@@ -102,6 +151,7 @@ const addcontent = () => {
       ///  [0], [1]
       handleCameraPermissions();
       handleMicPermissions();
+      handleMediaLibraryPermissions()
       console.log("Permissions are set");
     }
   }, []);
@@ -128,43 +178,47 @@ const addcontent = () => {
   };
   //Take a Photo
   const takePhoto = async () => {
-    if (cameraRef.current) {
+    if (cameraRef.current && isCameraReady ) {
       // handleCamera();
       const newPhoto = await cameraRef.current.takePictureAsync();
+      if (hasMediaLibraryPermission) {
+        await MediaLibrary.saveToLibraryAsync(newPhoto?.uri!)
+        alert("Your phoho has been saved to the gallery!")
+      }
       console.log("New Photo: ", newPhoto!.uri);
     }
   };
 
-
-    type renderProps = {item: any, index: number}
-    const renderItem = ({ item, index }: renderProps) => {
+  type renderProps = { item: any; index: number };
+  const renderItem = ({ item, index }: renderProps) => {
     const inputRange = [
       (index - 1) * ITEM_WIDTH,
       index * ITEM_WIDTH,
-      (index + 1) * ITEM_WIDTH
-    ]
+      (index + 1) * ITEM_WIDTH,
+    ];
     //This is for the horizontal scrolling left to right vise vera
     const scale = scrollX.current.interpolate({
       inputRange,
       outputRange: [0.8, 1, 0.8],
-      extrapolate: "clamp" //keep the 0.8 values static no matter how many new items are in the list
-    })
+      extrapolate: "clamp", //keep the 0.8 values static no matter how many new items are in the list
+    });
 
     const opacity = scrollX.current.interpolate({
       inputRange,
       outputRange: [0.5, 1, 0.5],
-      extrapolate: "clamp"
-    })
+      extrapolate: "clamp",
+    });
 
     return (
       <View style={{ width: ITEM_WIDTH }}>
-        <Animated.Text style={[styles.modeText, { transform: [{ scale }], opacity }]}>
+        <Animated.Text
+          style={[styles.modeText, { transform: [{ scale }], opacity }]}
+        >
           {item}
         </Animated.Text>
       </View>
-    )
-
-  }
+    );
+  };
   //Take a Video
 
   // const handleRightSwipe = () => {};
@@ -176,10 +230,9 @@ const addcontent = () => {
         style={{
           flexDirection: "row",
           paddingHorizontal: normalizeX(50),
-      
+
           top: 50,
           zIndex: 100,
-      
         }}
       >
         <Pressable
@@ -190,23 +243,47 @@ const addcontent = () => {
         </Pressable>
 
         <Pressable>
-          <Ionicons name={"settings-outline"} size={normalizeX(30)} color={"blue"} />
+          <Ionicons
+            name={"settings-outline"}
+            size={normalizeX(30)}
+            color={"blue"}
+          />
         </Pressable>
       </View>
 
       <View
-        style={{ position: "absolute", bottom: normalizeY(50), right: normalizeX(139), zIndex: 100 }}
+        style={{
+          position: "absolute",
+          bottom: normalizeY(50),
+          right: normalizeX(139),
+          zIndex: 100,
+        }}
       >
         <TouchableOpacity onPress={takePhoto}>
           <Feather name="circle" size={normalizeX(60)} color={"whitesmoke"} />
         </TouchableOpacity>
       </View>
 
-      <CameraView style={[styles.camera]} ref={cameraRef} facing={facing}>
+      <CameraView
+        style={[styles.camera]}
+        ref={cameraRef}
+        facing={facing}
+        flash={flash}
+        enableTorch={enableTorch}
+        onCameraReady={() => setIsCameraReady(true)} //onCamera Ready is the event listener that listens for camera being on
+      >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
             <AntDesign name="retweet" size={38} color={"whitesmoke"} />
           </TouchableOpacity>
+
+          <CustomIconButton
+            onPress={() => {
+            setEnableTorch(!enableTorch)
+            }}
+            iosName={enableTorch ? "bolt.circle" : "bolt.slash"}
+            androidName={enableTorch ? "flash" : "flash"}
+          />
         </View>
 
         <View
@@ -221,7 +298,7 @@ const addcontent = () => {
         >
           <FlatList
             contentContainerStyle={{
-              paddingHorizontal: CENTER_OFFSET
+              paddingHorizontal: CENTER_OFFSET,
             }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -235,20 +312,16 @@ const addcontent = () => {
         </View>
       </CameraView>
     </>
-  )
-}
+  );
+};
 export default addcontent;
-
-
-
-
 
 const styles = StyleSheet.create({
   modeText: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#000000"
+    backgroundColor: "#000000",
   },
   container: {
     flex: 1,
