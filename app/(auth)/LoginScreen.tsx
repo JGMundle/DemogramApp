@@ -14,10 +14,15 @@ import login from "@/api/login";
 import { loginValidationSchema } from "@/validation/validationSchema";
 import BaseTextInput from "@/forms/BaseTextInput";
 import BaseFormField from "@/forms/BaseFormField";
-
-interface LoginResponse {
+import FormSubmitButton from "@/forms/FormSubmitButton";
+import cache from "@/api/cache"
+import storage from "@/api/storage"
+interface ILoginResponse {
   token: string;
+  info?: {id: string, timestamp: string} //the server will send back an info object and jwt token (token)
 }
+
+
 const LoginScreen = () => {
   const [error, setError] = useState<string>("");
   //We need a Controller component because we need to access the value prop and onChangeText prop
@@ -38,8 +43,19 @@ const LoginScreen = () => {
         setError(response.problem);
       }
 
-      const data = await response.data;
-      return data;
+      const data = (await response.data) as ILoginResponse;
+
+      //save the jwt token to local storage
+      //jwt token - access token (the token that we use for authenication)
+      //          - refresh token (this another jwt token we use to reissue a new jwt access token when the previous one has expired)
+
+      cache.storeToken("accessToken", "api", data.token); //store the user token in the cache
+      storage.storeUserToken(data.token); //store in secure storage
+
+      //we can redirect the user from client side if they succesfully login
+      window.location.assign(`http://localhost:3000/profile/${data.info?.id}`);
+
+      return data.info; //If need to return user info some reason you can if not don't add a return
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
     }
@@ -77,6 +93,8 @@ const LoginScreen = () => {
             secureTextEntry
             useIcon
           />
+
+          <FormSubmitButton label="Login" />
         </BaseForm>
 
         <Text

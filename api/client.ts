@@ -25,7 +25,7 @@ export const apiClient = create({
 apiClient.addAsyncRequestTransform(async(req) => {
     const authToken = await storage.getStoredUserToken() //get the jwt token from storage if it exists
     if (!authToken) return 
-    req.headers!["x-auth-token"] = authToken
+    req.headers!["x-auth-token"]  = authToken
     //Anything that starts with x in header configuration of a request
 
     //null - falsy

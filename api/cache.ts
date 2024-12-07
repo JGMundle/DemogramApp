@@ -6,7 +6,7 @@ import moment from "moment";
 
 const cachePrefix = "demogram"
 
-interface CacheItem<T> {
+export interface CacheItem<T> {
     value: T
     timestamp: Date
 }
